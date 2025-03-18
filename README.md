@@ -20,7 +20,7 @@ A fun Flutter-based party game application with multiple mini-games for social g
 ## Installation
 
 ### Android
-1. Download the APK file from the [latest release](https://github.com/YOURGITHUBUSERNAME/VIBEZ/releases/latest)
+1. Download the APK file from the [latest release](https://github.com/Jarokgamer/VIBEZ/releases/latest)
 2. Install the APK on your Android device
 3. Open the app and start playing!
 
@@ -33,7 +33,7 @@ Coming soon!
 ## How to Build from Source
 
 1. Ensure you have Flutter installed on your machine
-2. Clone this repository: `git clone https://github.com/YOURGITHUBUSERNAME/VIBEZ.git`
+2. Clone this repository: `git clone https://github.com/Jarokgamer/VIBEZ.git`
 3. Navigate to the project directory: `cd VIBEZ`
 4. Run `flutter pub get` to install dependencies
 5. Connect a device or start an emulator

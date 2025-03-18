@@ -1,0 +1,28 @@
+name: party_game_app
+description: A fun party game app with multiple mini-games.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.19.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.5
+  shared_preferences: ^2.2.0
+  provider: ^6.0.5
+  google_fonts: ^5.1.0
+  flutter_animate: ^4.2.0
+  audioplayers: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/audio/

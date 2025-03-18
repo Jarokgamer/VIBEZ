@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="300" viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bottleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2C3E50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34495E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <g transform="rotate(180 50 150)">
+    <path d="M45,20 L55,20 L58,60 L42,60 Z" fill="#1A1A1A"/>
+    <path d="M40,60 L60,60 C70,120 70,180 60,280 L40,280 C30,180 30,120 40,60 Z" fill="url(#bottleGradient)"/>
+    <path d="M42,60 L58,60 L56,80 L44,80 Z" fill="#2C3E50"/>
+    <circle cx="50" cy="40" r="8" fill="#95A5A6"/>
+  </g>
+</svg>

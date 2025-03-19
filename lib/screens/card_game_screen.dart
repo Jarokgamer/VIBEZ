@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:party_game_app/models/game.dart';
 import 'package:party_game_app/models/player.dart';
@@ -165,21 +166,31 @@ class _CardGameScreenState extends State<CardGameScreen> with SingleTickerProvid
                           height: 400,
                           child: Stack(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: _animation.value < 0.5 
-                                      ? AppTheme.surfaceColor 
-                                      : widget.game.primaryColor,
+                              if (_animation.value < 0.5)
+                                ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.3),
-                                      blurRadius: 12,
-                                      offset: const Offset(0, 6),
-                                    ),
-                                  ],
+                                  child: SvgPicture.asset(
+                                    'assets/images/card_back.svg',
+                                    width: 280,
+                                    height: 400,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              else 
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: widget.game.primaryColor,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 6),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              
                               if (_animation.value >= 0.5 && currentCard != null)
                                 Transform(
                                   alignment: Alignment.center,
@@ -200,17 +211,15 @@ class _CardGameScreenState extends State<CardGameScreen> with SingleTickerProvid
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
-                                        if (currentCard!.description != null) ...[                                          
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            currentCard!.description!,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                            ),
-                                            textAlign: TextAlign.center,
+                                        const SizedBox(height: 16),
+                                        Text(
+                                          currentCard!.description,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
                                           ),
-                                        ],
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ],
                                     ),
                                   ),

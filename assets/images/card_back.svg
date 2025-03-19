@@ -1,11 +1,65 @@
-<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+<svg width="300" height="420" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.2"/>
+    <!-- Patrón de fondo elegante -->
+    <pattern id="cardPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="#1a1a2e"/>
+      <circle cx="10" cy="10" r="2" fill="#e94560" opacity="0.5"/>
+      <path d="M0 0L20 20M20 0L0 20" stroke="#e94560" stroke-width="0.5" opacity="0.3"/>
     </pattern>
+    
+    <!-- Gradiente para el borde -->
+    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e94560"/>
+      <stop offset="50%" stop-color="#ff9b54"/>
+      <stop offset="100%" stop-color="#e94560"/>
+    </linearGradient>
+    
+    <!-- Gradiente para las decoraciones -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e94560"/>
+      <stop offset="100%" stop-color="#ff9b54"/>
+    </linearGradient>
   </defs>
-  <rect width="120" height="120" fill="url(#grid)"/>
-  <rect x="10" y="10" width="100" height="100" rx="8" stroke="currentColor" stroke-width="2" fill="none"/>
-  <path d="M 60 35 L 85 60 L 60 85 L 35 60 Z" stroke="currentColor" stroke-width="2" fill="none"/>
-  <circle cx="60" cy="60" r="15" stroke="currentColor" stroke-width="2" fill="none"/>
+  
+  <!-- Fondo principal de la carta -->
+  <rect width="300" height="420" rx="20" fill="url(#cardPattern)"/>
+  
+  <!-- Borde elegante -->
+  <rect x="10" y="10" width="280" height="400" rx="15" fill="none" stroke="url(#borderGradient)" stroke-width="3"/>
+  <rect x="20" y="20" width="260" height="380" rx="12" fill="none" stroke="#e94560" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Adornos en las esquinas -->
+  <g opacity="0.8">
+    <!-- Esquina superior izquierda -->
+    <path d="M30 30 C40 40, 60 40, 70 30 C70 50, 50 60, 30 50 Z" fill="url(#accentGradient)"/>
+    <!-- Esquina superior derecha -->
+    <path d="M270 30 C260 40, 240 40, 230 30 C230 50, 250 60, 270 50 Z" fill="url(#accentGradient)"/>
+    <!-- Esquina inferior izquierda -->
+    <path d="M30 390 C40 380, 60 380, 70 390 C70 370, 50 360, 30 370 Z" fill="url(#accentGradient)"/>
+    <!-- Esquina inferior derecha -->
+    <path d="M270 390 C260 380, 240 380, 230 390 C230 370, 250 360, 270 370 Z" fill="url(#accentGradient)"/>
+  </g>
+  
+  <!-- Elemento central - Logo VIBEZ -->
+  <g transform="translate(150,210) scale(1.2,1.2)">
+    <!-- Círculo base -->
+    <circle cx="0" cy="0" r="60" fill="#1a1a2e" stroke="url(#accentGradient)" stroke-width="2"/>
+    
+    <!-- Ondas de sonido/vibración -->
+    <path d="M-40,0 A40,40 0 0,1 40,0" fill="none" stroke="url(#accentGradient)" stroke-width="3" transform="rotate(0)"/>
+    <path d="M-35,0 A35,35 0 0,1 35,0" fill="none" stroke="url(#accentGradient)" stroke-width="3" transform="rotate(45)"/>
+    <path d="M-30,0 A30,30 0 0,1 30,0" fill="none" stroke="url(#accentGradient)" stroke-width="3" transform="rotate(90)"/>
+    <path d="M-25,0 A25,25 0 0,1 25,0" fill="none" stroke="url(#accentGradient)" stroke-width="3" transform="rotate(135)"/>
+    
+    <!-- Texto VIBEZ -->
+    <text x="-40" y="5" font-family="Arial" font-weight="bold" font-size="24" fill="url(#accentGradient)">VIBEZ</text>
+  </g>
+  
+  <!-- Pequeños detalles decorativos en los bordes -->
+  <g opacity="0.5">
+    <circle cx="150" cy="40" r="5" fill="url(#accentGradient)"/>
+    <circle cx="150" cy="380" r="5" fill="url(#accentGradient)"/>
+    <circle cx="40" cy="210" r="5" fill="url(#accentGradient)"/>
+    <circle cx="260" cy="210" r="5" fill="url(#accentGradient)"/>
+  </g>
 </svg>

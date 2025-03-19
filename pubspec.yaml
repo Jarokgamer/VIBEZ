@@ -1,4 +1,4 @@
-name: party_game_app
+name: vibez
 description: A fun party game app with multiple mini-games for social gatherings. VIBEZ brings classic party games to your mobile device.
 
 version: 1.0.0+1
@@ -15,6 +15,7 @@ dependencies:
   google_fonts: ^5.1.0
   flutter_animate: ^4.2.0
   audioplayers: ^5.1.0
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:

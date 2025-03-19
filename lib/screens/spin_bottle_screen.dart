@@ -289,17 +289,6 @@ class _SpinBottleScreenState extends State<SpinBottleScreen> with SingleTickerPr
             ),
           ),
           ),
-          // Add stationary arrow at the top
-          // Position the arrow at the top of the wheel
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.5 - 170, // Positioned just above the wheel
-            left: MediaQuery.of(context).size.width * 0.5 - 20,
-            child: Icon(
-              Icons.arrow_downward,
-              size: 40,
-              color: widget.game.primaryColor,
-            ),
-          ),
         ],
       ),
     );

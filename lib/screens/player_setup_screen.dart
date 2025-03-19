@@ -20,6 +20,7 @@ class PlayerSetupScreen extends StatefulWidget {
 
 class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
   final TextEditingController _nameController = TextEditingController();
+  final FocusNode _nameFocusNode = FocusNode();
   final List<Color> _avatarColors = [
     Colors.red,
     Colors.blue,
@@ -43,6 +44,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
   @override
   void dispose() {
     _nameController.dispose();
+    _nameFocusNode.dispose();
     super.dispose();
   }
 
@@ -53,7 +55,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Configurar ${widget.game.name}'),
+        title: Text(widget.game.name),
         backgroundColor: widget.game.primaryColor.withOpacity(0.8),
       ),
       body: Container(
@@ -190,6 +192,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                       Expanded(
                         child: TextField(
                           controller: _nameController,
+                          focusNode: _nameFocusNode,
                           decoration: InputDecoration(
                             hintText: 'Nombre del jugador',
                             filled: true,
@@ -201,11 +204,16 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                           ),
                           style: const TextStyle(color: AppTheme.textPrimaryColor),
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (_) => _addPlayer(),
                         ),
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
-                        onPressed: _addPlayer,
+                        onPressed: () {
+                          _addPlayer();
+                          _nameFocusNode.requestFocus();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: widget.game.primaryColor,
                           shape: RoundedRectangleBorder(
@@ -259,6 +267,8 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
       
       playerProvider.addPlayer(newPlayer);
       _nameController.clear();
+      // Request focus again to keep keyboard open after adding a player
+      _nameFocusNode.requestFocus();
     }
   }
 

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.party_game_app"
+    namespace = "com.mvill.vibez"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.mvill.party_game_app"
+        applicationId = "com.mvill.vibez"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

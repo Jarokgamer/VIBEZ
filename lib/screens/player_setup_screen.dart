@@ -7,6 +7,7 @@ import 'package:party_game_app/providers/player_provider.dart';
 import 'package:party_game_app/screens/game_screen.dart';
 import 'package:party_game_app/screens/would_you_rather_screen.dart';
 import 'package:party_game_app/theme/app_theme.dart';
+import 'package:party_game_app/widgets/animated_button.dart';
 import 'dart:math';
 
 class PlayerSetupScreen extends StatefulWidget {
@@ -96,6 +97,11 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                             widget.game.icon,
                             color: widget.game.primaryColor,
                             size: 32,
+                          ).animate().scale(
+                            begin: const Offset(0.5, 0.5),
+                            end: const Offset(1, 1),
+                            duration: 400.ms,
+                            curve: Curves.elasticOut,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -109,14 +115,14 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                                     fontWeight: FontWeight.bold,
                                     color: AppTheme.textPrimaryColor,
                                   ),
-                                ),
+                                ).animate().fadeIn(delay: 100.ms, duration: 400.ms),
                                 Text(
                                   widget.game.description,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     color: AppTheme.textSecondaryColor,
                                   ),
-                                ),
+                                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
                               ],
                             ),
                           ),
@@ -130,7 +136,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textPrimaryColor,
                         ),
-                      ),
+                      ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
                     ],
                   ),
                 ),
@@ -140,12 +146,29 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
               Expanded(
                 child: players.isEmpty
                     ? Center(
-                        child: Text(
-                          'Añade jugadores para comenzar',
-                          style: TextStyle(
-                            color: AppTheme.textSecondaryColor,
-                            fontSize: 16,
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.person_add_alt_1,
+                              color: AppTheme.textSecondaryColor.withOpacity(0.5),
+                              size: 64,
+                            ).animate(onPlay: (controller) => controller.repeat(reverse: true))
+                                .scale(
+                                  begin: const Offset(1, 1),
+                                  end: const Offset(1.1, 1.1),
+                                  duration: 1000.ms,
+                                  curve: Curves.easeInOut,
+                                ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Añade jugadores para comenzar',
+                              style: TextStyle(
+                                color: AppTheme.textSecondaryColor,
+                                fontSize: 16,
+                              ),
+                            ).animate().fadeIn(delay: 300.ms, duration: 500.ms),
+                          ],
                         ),
                       )
                     : ListView.builder(
@@ -153,6 +176,8 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                         itemCount: players.length,
                         itemBuilder: (context, index) {
                           final player = players[index];
+                          final targetDelay = (50 * index).ms;
+                          
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Container(
@@ -167,18 +192,41 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                                     player.name.isNotEmpty ? player.name[0].toUpperCase() : '?',
                                     style: const TextStyle(color: Colors.white),
                                   ),
-                                ),
+                                ).animate(delay: targetDelay + 100.ms)
+                                  .scale(begin: const Offset(0, 0), duration: 300.ms)
+                                  .then()
+                                  .shimmer(duration: 200.ms),
                                 title: Text(
                                   player.name,
                                   style: const TextStyle(color: AppTheme.textPrimaryColor),
-                                ),
+                                ).animate(delay: targetDelay + 200.ms).fadeIn(duration: 200.ms),
                                 trailing: IconButton(
-                                  icon: const Icon(Icons.delete, color: Colors.red),
-                                  onPressed: () => playerProvider.removePlayer(player.id),
-                                ),
+                                  icon: Icon(Icons.delete, color: Colors.red.withOpacity(0.7)),
+                                  onPressed: () {
+                                    // Crear una animación de desvanecimiento antes de eliminar
+                                    final scaffold = ScaffoldMessenger.of(context);
+                                    scaffold.clearSnackBars();
+                                    
+                                    playerProvider.removePlayer(player.id);
+                                    
+                                    scaffold.showSnackBar(
+                                      SnackBar(
+                                        content: Text('${player.name} ha sido eliminado'),
+                                        action: SnackBarAction(
+                                          label: 'DESHACER',
+                                          onPressed: () {
+                                            playerProvider.addPlayer(player);
+                                          },
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                        duration: const Duration(seconds: 2),
+                                      ),
+                                    );
+                                  },
+                                ).animate(delay: targetDelay + 300.ms).fadeIn(duration: 200.ms),
                               ),
                             ),
-                          ).animate(delay: (50 * index).ms).fadeIn(duration: 300.ms).slideX(begin: 0.1, duration: 300.ms);
+                          ).animate(delay: targetDelay).fadeIn(duration: 300.ms).slideX(begin: 0.1, duration: 300.ms);
                         },
                       ),
               ),
@@ -190,38 +238,65 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: _nameController,
-                          focusNode: _nameFocusNode,
-                          decoration: InputDecoration(
-                            hintText: 'Nombre del jugador',
-                            filled: true,
-                            fillColor: AppTheme.surfaceColor.withOpacity(0.7),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.surfaceColor.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: widget.game.primaryColor.withOpacity(0.3),
+                              width: 1.5,
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                           ),
-                          style: const TextStyle(color: AppTheme.textPrimaryColor),
-                          textInputAction: TextInputAction.done,
-                          onSubmitted: (_) => _addPlayer(),
+                          child: TextField(
+                            controller: _nameController,
+                            focusNode: _nameFocusNode,
+                            decoration: InputDecoration(
+                              hintText: 'Nombre del jugador',
+                              filled: false,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                            ),
+                            style: const TextStyle(color: AppTheme.textPrimaryColor),
+                            textInputAction: TextInputAction.done,
+                            onSubmitted: (_) => _addPlayer(),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () {
-                          _addPlayer();
-                          _nameFocusNode.requestFocus();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: widget.game.primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.all(12),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: widget.game.primaryColor.withOpacity(0.3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                        child: const Icon(Icons.add, color: Colors.white),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _addPlayer();
+                            _nameFocusNode.requestFocus();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: widget.game.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.all(12),
+                          ),
+                          child: const Icon(Icons.add, color: Colors.white),
+                        ).animate(onPlay: (controller) => controller.repeat(reverse: true, min: 0.95, max: 1.0))
+                          .scale(
+                            begin: const Offset(1, 1),
+                            end: const Offset(1.05, 1.05),
+                            duration: 1500.ms,
+                            curve: Curves.easeInOut,
+                          ),
                       ),
                     ],
                   ),
@@ -233,15 +308,14 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
+                    child: AnimatedButton(
                       onPressed: _startGame,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: widget.game.primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+                      backgroundColor: widget.game.primaryColor,
+                      foregroundColor: Colors.white,
+                      isFullWidth: true,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: const Text(
                         'COMENZAR JUEGO',
@@ -269,6 +343,16 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
       _nameController.clear();
       // Request focus again to keep keyboard open after adding a player
       _nameFocusNode.requestFocus();
+      
+      // Mostrar un mensaje de éxito
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${newPlayer.name} añadido al juego'),
+          backgroundColor: widget.game.primaryColor,
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 1),
+        ),
+      );
     }
   }
 

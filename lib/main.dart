@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:party_game_app/screens/home_screen.dart';
-import 'package:party_game_app/providers/game_provider.dart';
-import 'package:party_game_app/providers/player_provider.dart';
-import 'package:party_game_app/theme/app_theme.dart';
+import 'package:vibez/screens/home_screen.dart';
+import 'package:vibez/providers/game_provider.dart';
+import 'package:vibez/providers/player_provider.dart';
+import 'package:vibez/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
